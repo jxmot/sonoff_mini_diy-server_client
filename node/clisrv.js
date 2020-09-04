@@ -11,15 +11,10 @@ module.exports = (function()  {
     };
 
     let server = {};
-    //let mini = {};
 
-    //clisrv.start = function(_mini) {
     clisrv.start = function() {
-
-        //mini = _mini;
-
         server = http.createServer(handleRequest);
-        // Starts our server.
+        // Starts the server.
         server.listen(mcfg.port, function() {
             console.log("Server is listening on PORT: " + mcfg.port);
         });
