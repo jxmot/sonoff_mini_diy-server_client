@@ -1,5 +1,7 @@
 # sonoff_mini_diy-server_client
 
+**WORK IN PROGRESS: As of 2020-09-04 the application(s) in this repo are functional. However work is still going on and there are likely to be changes. This message will be removed after the WIP phase is complete.**
+
 
 For use with a Sonoff Mini in DIY mode. This repo contains a Node app and a web client. 
 
