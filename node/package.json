@@ -1,11 +1,20 @@
 {
-  "name": "minitest",
+  "name": "MiniSwitch",
   "version": "0.0.1",
-  "description": "basic test of a Sonoff mini in DIY mode",
+  "description": "Controls a Sonoff mini in DIY mode",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
-  "author": "",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jxmot/sonoff_mini_diy-server_client.git"
+  },
+  "author": "J.Motyl",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jxmot/sonoff_mini_diy-server_client/issues"
+  },
+  "homepage": "https://github.com/jxmot/sonoff_mini_diy-server_client#readme"
 }
