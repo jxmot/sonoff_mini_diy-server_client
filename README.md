@@ -41,5 +41,8 @@ The CORS solution was a bit more involved than I wanted. But it wasn't too bad, 
 ## To Do
 
 * Add a "timed off" feature. This would allow the Mini to be turned off for a preset amount of time. Since I use this with an outdoor PIR controlled light it's likely that I don't want the Mini to be left off.
+* Display a spinner while waiting for the Mini respond, after a timeout cancel the request and refresh with a new `/info` call.
 * Display the Mini's WiFi signal strength, may aid in trouble shooting potential connection issues.
 * **Alexa** - modify the Node application so that Alexa can be used to operate it.
+
+
