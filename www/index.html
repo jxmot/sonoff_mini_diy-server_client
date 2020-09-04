@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Control</title>
+    <link rel="stylesheet" href="assets/css/site.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="assets/js/minicfg.js"></script>
+    <script type="text/javascript" src="assets/js/minidiy.js"></script>
+</head>
+<body id="bodyclick" class="nocopy" bgcolor="grey">
+    <div id="onoff" class="midpage">
+        <h1 id="on_label" style="display:none;" class="onoff_text">ON</h1>
+        <h1 id="off_label" style="display:none;" class="onoff_text">OFF</h1>
+        <h1 id="err_label" style="display:none;" class="err_text">ERR</h1>
+    </div>
+    <script type="text/javascript" crossorigin="anonymous">
+        var swState = "n/a";
+
+        function autorun()
+        {
+            getDeviceInfo(update);
+
+            // click anywhere on the body to change states
+            $('#bodyclick').on('click', function() {
+                console.log("bodyclick");
+                if(swState === "on") {
+                    setMiniOFF(update);
+                    $('body')[0].bgColor="red";
+                    swState = "off";
+                } else {
+                    setMiniON(update);
+                    $('body')[0].bgColor="green";
+                    swState = "on";
+                }
+                // toggle the display of ON/OFF
+                $('#on_label').toggle();
+                $('#off_label').toggle();
+            });
+        }
+        if (document.addEventListener) document.addEventListener("DOMContentLoaded", autorun, false);
+        else if (document.attachEvent) document.attachEvent("onreadystatechange", autorun);
+        else window.onload = autorun;
+
+        function update(upd) {
+            if(upd.error === 0) {
+                if(upd.data !== undefined) {
+                    swState = upd.data.switch;
+                    if(swState === "off") {
+                        $('body')[0].bgColor="red";
+                        $('#on_label').hide();
+                        $('#off_label').show();
+                    } else {
+                        $('body')[0].bgColor="green";
+                        $('#on_label').show();
+                        $('#off_label').hide();
+                    }
+                    // show more... signal str, ssid(?)
+                }
+            } else {
+                $('body')[0].bgColor="black";
+                $('#on_label').hide();
+                $('#off_label').hide();
+                $('#err_label').show();
+            }
+        };
+    </script>
+</body>
+</html>
