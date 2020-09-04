@@ -9,7 +9,7 @@ function _get(func, args, callback) {
             var _resp = {};
             var resp = this.responseText;
             resp = resp.replace(/[\n\r]/g, '');
-            console.log('_get - ' + resp);
+            consolelog('_get - ' + resp);
             if(resp.match(/^\{/g)) 
                 _resp = JSON.parse(resp);
             else {

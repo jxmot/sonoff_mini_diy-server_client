@@ -5,6 +5,7 @@
     <title>Mini Control</title>
     <link rel="stylesheet" href="assets/css/site.css">
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="assets/js/consolelog.js"></script>
     <script type="text/javascript" src="assets/js/minicfg.js"></script>
     <script type="text/javascript" src="assets/js/minidiy.js"></script>
 </head>
@@ -23,7 +24,7 @@
 
             // click anywhere on the body to change states
             $('#bodyclick').on('click', function() {
-                console.log("bodyclick");
+                consolelog("bodyclick");
                 if(swState === "on") {
                     setMiniOFF(update);
                     $('body')[0].bgColor="red";
