@@ -1,6 +1,8 @@
 /*
     Send a GET request and invoke a 
     callback function when completed.
+    Pass the server's response as an 
+    object to the callback function.
 */
 function httpGet(url, callback) {
     var xmlhttp = new XMLHttpRequest();
@@ -21,7 +23,7 @@ function httpGet(url, callback) {
             callback(_resp);
         }
     };
-    xmlhttp.open('GET', `${url}`, true);
+    xmlhttp.open('GET', url, true);
     xmlhttp.send();
 };
 
