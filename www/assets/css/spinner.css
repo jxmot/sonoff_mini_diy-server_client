@@ -90,18 +90,12 @@ The <div> below are required in order for
 this spinner to work.
 
 <div class="lds-spinner">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
+    <div></div><div></div>
+    <div></div><div></div>
+    <div></div><div></div>
+    <div></div><div></div>
+    <div></div><div></div>
+    <div></div><div></div>
 </div>
 
 */
