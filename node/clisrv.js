@@ -44,6 +44,12 @@ module.exports = (function()  {
 
             case '/switch':
                 console.log('got switch');
+                if(urlQuery.state === 'off') {
+                    // Start a timer for a configurable
+                    // duration. When it expires turn the
+                    // Mini back to ON.
+                    console.log('timed OFF');
+                }
                 mini.sendCmd('switch', urlQuery.state, reply => {
                     res.writeHead(200, headers);
                     res.end(reply);
