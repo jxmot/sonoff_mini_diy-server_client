@@ -16,7 +16,8 @@
         <h1 id="err_label" style="display:none;" class="err_text">ERR</h1>
     </div>
     <script type="text/javascript">
-        var swState = "n/a";
+        var swState = 'n/a';
+        var wifiSig = 'n/a'
 
         function autorun()
         {
@@ -24,42 +25,42 @@
 
             // click anywhere on the body to change states
             $('#bodyclick').on('click', function() {
-                consolelog("bodyclick");
-                if(swState === "on") {
+                consolelog('bodyclick');
+                if(swState === 'on') {
                     setMiniOFF(update);
-                    $('body')[0].bgColor="red";
-                    swState = "off";
+                    $('body')[0].bgColor='red';
+                    swState = 'off';
                 } else {
                     setMiniON(update);
-                    $('body')[0].bgColor="green";
-                    swState = "on";
+                    $('body')[0].bgColor='green';
+                    swState = 'on';
                 }
                 // toggle the display of ON/OFF
                 $('#on_label').toggle();
                 $('#off_label').toggle();
             });
         }
-        if (document.addEventListener) document.addEventListener("DOMContentLoaded", autorun, false);
-        else if (document.attachEvent) document.attachEvent("onreadystatechange", autorun);
+        if (document.addEventListener) document.addEventListener('DOMContentLoaded', autorun, false);
+        else if (document.attachEvent) document.attachEvent('onreadystatechange', autorun);
         else window.onload = autorun;
 
         function update(upd) {
             if(upd.error === 0) {
                 if(upd.data !== undefined) {
                     swState = upd.data.switch;
-                    if(swState === "off") {
-                        $('body')[0].bgColor="red";
+                    if(swState === 'off') {
+                        $('body')[0].bgColor='red';
                         $('#on_label').hide();
                         $('#off_label').show();
                     } else {
-                        $('body')[0].bgColor="green";
+                        $('body')[0].bgColor='green';
                         $('#on_label').show();
                         $('#off_label').hide();
                     }
                     // show more... signal str, ssid(?)
                 }
             } else {
-                $('body')[0].bgColor="black";
+                $('body')[0].bgColor='black';
                 $('#on_label').hide();
                 $('#off_label').hide();
                 $('#err_label').show();
