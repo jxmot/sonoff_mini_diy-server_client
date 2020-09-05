@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="assets/css/spinner.css">
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="assets/js/consolelog.js"></script>
+    <script type="text/javascript" src="assets/js/httpget.js"></script>
     <script type="text/javascript" src="assets/js/minicfg.js"></script>
     <script type="text/javascript" src="assets/js/minidiy.js"></script>
 </head>
@@ -43,15 +44,10 @@
                 if(swState === 'on') {
                     swState = 'off';
                     setMiniOFF(update);
-//                    $('body')[0].bgColor='red';
                 } else {
                     swState = 'on';
                     setMiniON(update);
-//                    $('body')[0].bgColor='green';
                 }
-                // toggle the display of ON/OFF
-//                $('#on_label').toggle();
-//                $('#off_label').toggle();
             });
         }
         if (document.addEventListener) document.addEventListener('DOMContentLoaded', autorun, false);
