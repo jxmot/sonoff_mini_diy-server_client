@@ -1,22 +1,29 @@
+/*
+    Sonoff Mini Commands
+
+    Calls the Node server API with a GET request
+    that triggers Mini API calls.
+*/
+const miniURL = 'http://'+cfg.ip+':'+cfg.port;
+
+function miniCmd(func, callback) {
+    httpGet(miniURL+func,
+        function(resp) {
+            callback(resp);
+        }
+    );
+};
+
 function getDeviceInfo(callback) {
-    httpGet('http://'+cfg.ip+':'+cfg.port+'/info',
-    function(resp) {
-        callback(resp);
-    });
+    miniCmd('/info', callback);
 };
 
 function setMiniON(callback) {
-    httpGet('http://'+cfg.ip+':'+cfg.port+'/switch?state=on',
-    function(resp) {
-        callback(resp);
-    });
+    miniCmd('/switch?state=on', callback);
 };
 
 function setMiniOFF(callback) {
-    httpGet('http://'+cfg.ip+':'+cfg.port+'/switch?state=off',
-    function(resp) {
-        callback(resp);
-    });
+    miniCmd('/switch?state=off', callback);
 };
 
 function getWiFiSignal(callback) {
