@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Mini Control</title>
     <link rel="stylesheet" href="assets/css/site.css">
+    <link rel="stylesheet" href="assets/css/spinner.css">
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="assets/js/consolelog.js"></script>
     <script type="text/javascript" src="assets/js/minicfg.js"></script>
@@ -14,6 +15,15 @@
         <h1 id="on_label" style="display:none;" class="onoff_text">ON</h1>
         <h1 id="off_label" style="display:none;" class="onoff_text">OFF</h1>
         <h1 id="err_label" style="display:none;" class="err_text">ERR</h1>
+        <p>
+            <div id="wait_spin" style="display:none;">
+                <div class="lds-spinner">
+                    <div></div><div></div><div></div><div></div>
+                    <div></div><div></div><div></div><div></div>
+                    <div></div><div></div><div></div><div></div>
+                </div>
+            </div>
+        </p>
     </div>
     <script type="text/javascript">
         var swState = 'n/a';
@@ -21,23 +31,27 @@
 
         function autorun()
         {
+            standby();
             getDeviceInfo(update);
 
             // click anywhere on the body to change states
             $('#bodyclick').on('click', function() {
                 consolelog('bodyclick');
+
+                standby();
+
                 if(swState === 'on') {
-                    setMiniOFF(update);
-                    $('body')[0].bgColor='red';
                     swState = 'off';
+                    setMiniOFF(update);
+//                    $('body')[0].bgColor='red';
                 } else {
-                    setMiniON(update);
-                    $('body')[0].bgColor='green';
                     swState = 'on';
+                    setMiniON(update);
+//                    $('body')[0].bgColor='green';
                 }
                 // toggle the display of ON/OFF
-                $('#on_label').toggle();
-                $('#off_label').toggle();
+//                $('#on_label').toggle();
+//                $('#off_label').toggle();
             });
         }
         if (document.addEventListener) document.addEventListener('DOMContentLoaded', autorun, false);
@@ -46,23 +60,35 @@
 
         function update(upd) {
             if(upd.error === 0) {
+                $('#err_label').hide();
+                $('#wait_spin').hide();
                 if(upd.data !== undefined) {
                     swState = upd.data.switch;
-                    if(swState === 'off') {
-                        $('body')[0].bgColor='red';
-                        $('#on_label').hide();
-                        $('#off_label').show();
-                    } else {
-                        $('body')[0].bgColor='green';
-                        $('#on_label').show();
-                        $('#off_label').hide();
-                    }
-                    // show more... signal str, ssid(?)
                 }
+                if(swState === 'off') {
+                    $('body')[0].bgColor='red';
+                    $('#on_label').hide();
+                    $('#off_label').show();
+                } else {
+                    $('body')[0].bgColor='green';
+                    $('#on_label').show();
+                    $('#off_label').hide();
+                }
+                // show more... signal str, ssid(?)
             } else {
-                $('body')[0].bgColor='black';
-                $('#on_label').hide();
-                $('#off_label').hide();
+                standby(true);
+            }
+        };
+
+        function standby(err = false) {
+            $('body')[0].bgColor='black';
+            $('#on_label').hide();
+            $('#off_label').hide();
+            if(err === false) {
+                $('#wait_spin').show();
+                $('#err_label').hide();
+            } else {
+                $('#wait_spin').hide();
                 $('#err_label').show();
             }
         };
