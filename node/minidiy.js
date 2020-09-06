@@ -1,9 +1,10 @@
-module.exports = (function()  {
+module.exports = (function() {
 
     const http = require('http');
     const mcfg = require('./minicfg.js');
 
     minidiy = {
+        debug: false
     };
 
     const miniCmdData = {
@@ -14,26 +15,21 @@ module.exports = (function()  {
     minidiy.sendCmd = function(cmd, cdata, callback) {
 
         let args = {};
-        let mdata = {};
 
         switch(cmd) {
             case 'info':
             case 'signal_strength':
-                sendMiniCmd(cmd, JSON.stringify(miniCmdData), callback)
+                sendMiniCmd(cmd, miniCmdData, callback)
                 break;
 
             case 'switch':
                 args = {data:{switch:cdata}};
-                mdata = Object.assign(miniCmdData, args);
-                console.log('mdata = '+JSON.stringify(mdata));
-                sendMiniCmd(cmd, JSON.stringify(mdata), callback)
+                sendMiniCmd(cmd, args, callback)
                 break;
 
             case 'startup':
                 args = {data:{startup:cdata}};
-                mdata = Object.assign(miniCmdData, args);
-                console.log('mdata = '+JSON.stringify(mdata));
-                sendMiniCmd(cmd, JSON.stringify(mdata), callback)
+                sendMiniCmd(cmd, args, callback)
                 break;
 
             default:
@@ -42,7 +38,12 @@ module.exports = (function()  {
         };
     };
 
-    function sendMiniCmd(cmd, cdata, callback) {
+    function sendMiniCmd(cmd, args, callback) {
+
+        let mdata = Object.assign(miniCmdData, args);
+        let cdata = JSON.stringify(mdata);
+        consolelog('cdata = '+cdata);
+
         let req = http.request(
         {
             host: mcfg.ip,
@@ -61,13 +62,19 @@ module.exports = (function()  {
             });
         
             res.on('end', () => {
-                console.log('data = '+data);
+                consolelog('data = '+data);
                 callback(data);
             });
-        }
-        );
+        });
         req.write(cdata);
         req.end();
     };
+
+    function consolelog(text) {
+        if(minidiy.debug) {
+            console.log(text);
+        }
+    };
+
     return minidiy;
 })();
