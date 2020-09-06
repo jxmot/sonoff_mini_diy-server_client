@@ -7,7 +7,7 @@ module.exports = (function()  {
 
     const ccfg = require('./clisrvcfg.js');
     const mini = require('./minidiy.js');
-    mini.debug - ccfg.debug;
+    mini.debug = ccfg.debug;
 
     clisrv = {
     };
