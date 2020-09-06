@@ -5,6 +5,8 @@ module.exports = {
     port: '6464',
     // the state with a timeout
     timedstate: 'off',
+    // when the timeout expires this is 
+    // next state
     nextstate: 'on',
     // set to 0 to disable timeout
     //      10800000 = 3 hours
