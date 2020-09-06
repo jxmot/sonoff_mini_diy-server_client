@@ -3,13 +3,16 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
+    <!-- <meta http-equiv="refresh" content="800"> -->
     <meta http-equiv="refresh" content="15">
     <meta name="description" content="Sonoff Mini ON/OFF Control">
     <meta name="author" content="Jim Motyl https://github.com/jxmot">
+
     <title>Mini Control</title>
+
     <link rel="stylesheet" href="assets/css/site.css">
     <link rel="stylesheet" href="assets/css/spinner.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
     <script type="text/javascript" src="assets/js/consolelog.js"></script>
     <script type="text/javascript" src="assets/js/httpget.js"></script>
     <script type="text/javascript" src="assets/js/minicfg.js"></script>
@@ -40,7 +43,7 @@
             getDeviceInfo(update);
 
             // click anywhere on the body to change states
-            $('#bodyclick').on('click', function() {
+            document.getElementById('bodyclick').onclick = function() {
                 consolelog('bodyclick');
 
                 standby();
@@ -52,7 +55,7 @@
                     swState = 'on';
                     setMiniON(update);
                 }
-            });
+            };
         }
         if (document.addEventListener) document.addEventListener('DOMContentLoaded', autorun, false);
         else if (document.attachEvent) document.attachEvent('onreadystatechange', autorun);
@@ -60,19 +63,19 @@
 
         function update(upd) {
             if(upd.error === 0) {
-                $('#err_label').hide();
-                $('#wait_spin').hide();
+                document.getElementById('err_label').style.display = 'none';
+                document.getElementById('wait_spin').style.display = 'none';
                 if(upd.data !== undefined) {
                     swState = upd.data.switch;
                 }
                 if(swState === 'off') {
-                    $('body')[0].bgColor='red';
-                    $('#on_label').hide();
-                    $('#off_label').show();
+                    document.querySelector('body').bgColor='red';
+                    document.getElementById('on_label').style.display = 'none';
+                    document.getElementById('off_label').style.display = 'block';
                 } else {
-                    $('body')[0].bgColor='green';
-                    $('#on_label').show();
-                    $('#off_label').hide();
+                    document.querySelector('body').bgColor='green';
+                    document.getElementById('on_label').style.display = 'block';
+                    document.getElementById('off_label').style.display = 'none';
                 }
                 // show more... signal str, ssid(?)
             } else {
@@ -81,15 +84,15 @@
         };
 
         function standby(err = false) {
-            $('body')[0].bgColor='black';
-            $('#on_label').hide();
-            $('#off_label').hide();
+            document.querySelector('body').bgColor='black';
+            document.getElementById('on_label').style.display = 'none';
+            document.getElementById('off_label').style.display = 'none';
             if(err === false) {
-                $('#wait_spin').show();
-                $('#err_label').hide();
+                document.getElementById('wait_spin').style.display = 'block';
+                document.getElementById('err_label').style.display = 'none';
             } else {
-                $('#wait_spin').hide();
-                $('#err_label').show();
+                document.getElementById('wait_spin').style.display = 'none';
+                document.getElementById('err_label').style.display = 'block';
             }
         };
     </script>
