@@ -79,9 +79,9 @@ Copy all of the files and folders in the `/www` folder to a place where you can 
 The client will display one of three states: On, Off, or Standby. The *standby* is seen when the client is waiting for the application server to respond.
 
 <p align="center">
-  <img src="./mdimg/client_OFF-500x665.png" style="width:20%"; alt="Overview Diagram" txt="Overview Diagram"/>
-  <img src="./mdimg/client_ON-500x665.png" style="width:20%"; alt="Overview Diagram" txt="Overview Diagram"/>
-  <img src="./mdimg/client_wait-500x665.png" style="width:20%"; alt="Overview Diagram" txt="Overview Diagram"/>
+  <img src="./mdimg/client_OFF-500x665.png" style="width:20%"; alt="OFF Screen" txt="OFF Screen"/>
+  <img src="./mdimg/client_ON-500x665.png" style="width:20%"; alt="ON Screen" txt="ON Screen"/>
+  <img src="./mdimg/client_wait-500x665.png" style="width:20%"; alt="WAIT Screen" txt="WAIT Screen"/>
 </p>
 
 
