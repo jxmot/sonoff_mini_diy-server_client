@@ -26,13 +26,18 @@ The CORS solution was a bit more involved than I wanted. But it wasn't too bad, 
 **Features :**
 
 * The client is mobile friendly.
-* The client automatically refreshes and reads the state of the Mini. This interval can be modified, it is contained in - `<meta http-equiv="refresh" content="15">`. 
-* There is a configurable timer in the Node application that can be used to impose a timeout on either the ON or the OFF state.
+* The client automatically refreshes and reads the state of the Mini. This interval can be modified, it is contained in - `<meta http-equiv="refresh" content="15">`. It's in the `index.html` file. 
+* The address & port of the Node application is configurable.
+* There is a configurable timer in the Node application that can be used to impose a timeout on either the ON or the OFF state. If you're familiar with "inching" this does the same thing but it can be configured for either **ON->OFF** or **OFF->ON**.
 * Very small source footprint - < 20k for server and client
 * No third party Node packages.
 * The client is just basic HTML/CSS/JavaScript. 
 
 ### Architecture
+
+<p align="center">
+  <img src="./mdimg/diagram-network.png" style="width:80%"; alt="Overview Diagram" txt="Overview Diagram"/>
+</p>
 
 #### Node Application
 
@@ -40,9 +45,41 @@ The CORS solution was a bit more involved than I wanted. But it wasn't too bad, 
 #### Web Client
 
 
+## Set Up & Run
+
+### Requirements
+
+* Client - A mobile device with WiFi is recommended. It will need access to the servers described below...
+* Web Server - This server can reside in a number of places. It could be an instance of XAMPP or a Linux box. It could even be a Raspberry Pi.
+* API Server - This application requires **Node.js**. In my setup there's a NAS with Node.js installed and I use that. But like the web server you could even use a Raspberry Pi. 
+    * Node.js - Any version > 6.10 should work. 
+
+The web server and the Node application server do not have to be on the same IP address, but they should be on the same network. The client is configurable for any IP and port you choose for the Node application server. 
+
+* Sonoff Mini DIY - You'll need this too! It must be in "DIY Mode" and connected to your network.
+
+**An internet connection is not required to *run* the client or Node application.**
+
+### Node Application
+
+Copy all of the files in the `/node` folder to where you can run Node.js. 
+
+For the *first run* enable console output debugging by editing `/node/clisrvcfg.js` and settng `debug` to `true`. Later on you can turn it off by setting it to `false`.
+
+Then run the application - `node ./index.js`
+
+You should see the following - 
+
+`Server is listening on PORT: 6464`
+
+#### Running Full Time
+
+To keep the Node application running even after you log off run this script - `./run.sh`. It uses `nohup` and redirects the application output to `/node/nohup.out`.
+
+### Client & Server
 
 
-## To Do
+## Project To Do
 
 * Display the Mini's WiFi signal strength, may aid in trouble shooting potential connection issues.
 * **Alexa** - modify the Node application so that Alexa can be used to operate it.
