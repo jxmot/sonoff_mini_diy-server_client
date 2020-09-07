@@ -74,6 +74,17 @@ To keep the Node application running even after you log off run this script - `.
 
 Copy all of the files and folders in the `/www` folder to a place where you can load them from your web server. For example if you were using XAMPP (*Windows*) the would be a folder named `C:\htdocs`, you could create a folder within it named `mini`. And if you copy the files there you would access it with `http://your-server/mini/`.
 
+#### Client Display
+
+The client will display one of three states: On, Off, or Standby. The *standby* is seen when the client is waiting for the application server to respond.
+
+<p align="center">
+  <img src="./mdimg/client_OFF-500x665.png" style="width:20%"; alt="Overview Diagram" txt="Overview Diagram"/>
+  <img src="./mdimg/client_ON-500x665.png" style="width:20%"; alt="Overview Diagram" txt="Overview Diagram"/>
+  <img src="./mdimg/client_wait-500x665.png" style="width:20%"; alt="Overview Diagram" txt="Overview Diagram"/>
+</p>
+
+
 ## Project To Do
 
 * Display the Mini's WiFi signal strength, may aid in trouble shooting potential connection issues.
