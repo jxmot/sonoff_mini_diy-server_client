@@ -39,12 +39,6 @@ The CORS solution was a bit more involved than I wanted. But it wasn't too bad, 
   <img src="./mdimg/diagram-network.png" style="width:80%"; alt="Overview Diagram" txt="Overview Diagram"/>
 </p>
 
-#### Node Application
-
-
-#### Web Client
-
-
 ## Set Up & Run
 
 ### Requirements
@@ -78,6 +72,7 @@ To keep the Node application running even after you log off run this script - `.
 
 ### Client & Server
 
+Copy all of the files and folders in the `/www` folder to a place where you can load them from your web server. For example if you were using XAMPP (*Windows*) the would be a folder named `C:\htdocs`, you could create a folder within it named `mini`. And if you copy the files there you would access it with `http://your-server/mini/`.
 
 ## Project To Do
 
