@@ -1,4 +1,6 @@
-
+/*
+    Fill entire viewport
+*/
 html, body {
     height: 100%;
     width: 100%;
@@ -6,10 +8,16 @@ html, body {
     padding: 0;
 }
 
+/*
+    The entire body is clickable
+*/
 body:hover {
     cursor:pointer;
 }
 
+/*
+    Don't allow text to be selectable
+*/
 .nocopy {
     -webkit-user-select:none;
     -moz-user-select:none;
@@ -17,6 +25,9 @@ body:hover {
     user-select:none;
 }
 
+/*
+    Center the content
+*/
 .midpage {
     display: flex;
     justify-content: center;
@@ -24,6 +35,9 @@ body:hover {
     align-items: center;
 }
 
+/*
+    Text, its size will depend upon the viewport
+*/
 .onoff_text {
     font-size: 50vw;
     font-family: "Lucida Console", Courier, monospace;
@@ -34,12 +48,3 @@ body:hover {
     font-family: "Lucida Console", Courier, monospace;
     color: red;
 }
-/*
-.hide {
-    display: none;
-}
-
-.show {
-    display: block;
-}
-*/
