@@ -81,7 +81,7 @@ The client will display one of three states: On, Off, or Standby. The *standby* 
 <p align="center">
   <img src="./mdimg/client_OFF-500x665.png" style="width:20%"; alt="OFF Screen" txt="OFF Screen"/>
   <img src="./mdimg/client_ON-500x665.png" style="width:20%"; alt="ON Screen" txt="ON Screen"/>
-  <img src="./mdimg/client_wAIT-500x665.png" style="width:20%"; alt="WAIT Screen" txt="WAIT Screen"/>
+  <img src="./mdimg/client_WAIT-500x665.png" style="width:20%"; alt="WAIT Screen" txt="WAIT Screen"/>
 </p>
 
 
