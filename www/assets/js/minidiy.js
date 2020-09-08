@@ -27,7 +27,7 @@ function setMiniOFF(callback) {
 };
 
 function getWiFiSignal(callback) {
-    getDeviceInfo(callback)
+    getDeviceInfo(callback);
 };
 
 
