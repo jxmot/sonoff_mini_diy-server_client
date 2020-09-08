@@ -1,7 +1,6 @@
 module.exports = (function()  {
 
     const http = require('http');
-    const fs = require('fs');
     const url = require('url');
     const qstr = require('querystring');
 
@@ -31,9 +30,8 @@ module.exports = (function()  {
             "Access-Control-Allow-Methods": "GET"
         };
 
-        // Capturing the url the request is made to.
-        var urlParts = url.parse(req.url, true);
-        var urlQuery = urlParts.query;
+        let urlParts = url.parse(req.url, true);
+        let urlQuery = urlParts.query;
         
         // When we visit different urls, the switch statement 
         // call on different functions.
