@@ -73,15 +73,13 @@ Copy all of the files and folders in the `/www` folder to a place where you can 
 
 #### Client Display
 
-The client will display one of three states: On, Off, or Standby. The *standby* is seen when the client is waiting for the application server to respond.
+The client will display one of three states: On, Off, or Standby. The *standby* is seen when the client is waiting for the application server to respond. The ON and OFF display also has the Mini's WifI received signal strength.
 
 <p align="center">
   <img src="./mdimg/client_OFF-500x665.png" width="20%"; alt="OFF Screen" txt="OFF Screen"/>
   <img src="./mdimg/client_ON-500x665.png" width="20%"; alt="ON Screen" txt="ON Screen"/>
   <img src="./mdimg/client_WAIT-500x665.png" width="20%"; alt="WAIT Screen" txt="WAIT Screen"/>
 </p>
-
-
 
 ## Project To Do
 
