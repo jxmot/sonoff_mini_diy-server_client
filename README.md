@@ -82,9 +82,9 @@ The client will display one of three states: On, Off, or Standby. The *standby* 
 </p>
 
 
+
 ## Project To Do
 
-* Display the Mini's WiFi signal strength, may aid in trouble shooting potential connection issues.
 * **Alexa** - modify the Node application so that Alexa can be used to operate it.
 * Create a version where the client's HTML file is served through the Node application. *Investigate the worth first.*
 
