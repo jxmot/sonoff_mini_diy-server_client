@@ -47,7 +47,7 @@ The CORS solution was a bit more involved than I wanted. But it wasn't too bad, 
 
 The web server and the Node application server do not have to be on the same IP address, but they should be on the same network. The client is configurable for any IP and port you choose for the Node application server. 
 
-* Sonoff Mini DIY - You'll need this too! It must be in "DIY Mode" and connected to your network.
+* Sonoff Mini DIY - You'll need this too! It must be in "DIY Mode" and connected to your network. For API documentation look **[here](http://developers.sonoff.tech/basicr3-rfr3-mini-http-api.html)**.
 
 **An internet connection is not required to *run* the client or Node application.**
 
@@ -63,9 +63,35 @@ You should see the following -
 
 `Server is listening on PORT: 6464`
 
+Then when you load the client page or when it automatically refreshes the server will output - 
+
+```
+got info
+cdata = {"deviceid":"","data":{}}
+data = {"seq":14,"error":0,"data":{"switch":"on","startup":"on","pulse":"off","pulseWidth":500,"ssid":"IBDOGG","otaUnlock":false,"fwVersion":"3.5.0","deviceid":"1000c53dc5","bssid":"10:da:43:c6:c0:89","signalStrength":-61}}
+```
+
+If "OFF" is selected in the client the server will output:
+```
+got switch
+timed STATE = off
+cdata = {"deviceid":"","data":{"switch":"off"}}
+data = {"seq":14,"error":0}
+```
+
+If "ON" is selected in the client the server will output:
+```
+got switch
+timed STATE cleared
+cdata = {"deviceid":"","data":{"switch":"on"}}
+data = {"seq":15,"error":0}
+```
+
 #### Running Full Time
 
 To keep the Node application running even after you log off run this script - `./run.sh`. It uses `nohup` and redirects the application output to `/node/nohup.out`.
+
+**NOTE:** If `debug` is `true` then the output will be appended to `/node/nohup.out`.
 
 ### Client & Server
 
@@ -80,6 +106,8 @@ The client will display one of three states: On, Off, or Standby. The *standby* 
   <img src="./mdimg/client_ON-500x665.png" width="20%"; alt="ON Screen" txt="ON Screen"/>
   <img src="./mdimg/client_WAIT-500x665.png" width="20%"; alt="WAIT Screen" txt="WAIT Screen"/>
 </p>
+
+The client displays the *current state* of the Mini. Touching/clicking anywhere in the page will change the state of the Mini and the client's display. 
 
 ## Project To Do
 
