@@ -14,8 +14,6 @@ module.exports = (function() {
 
     minidiy.sendCmd = function(cmd, cdata, callback) {
 
-        let args = {};
-
         switch(cmd) {
             case 'info':
             case 'signal_strength':
@@ -23,13 +21,11 @@ module.exports = (function() {
                 break;
 
             case 'switch':
-                args = {data:{switch:cdata}};
-                sendMiniCmd(cmd, args, callback)
+                sendMiniCmd(cmd, {data:{switch:cdata}}, callback)
                 break;
 
             case 'startup':
-                args = {data:{startup:cdata}};
-                sendMiniCmd(cmd, args, callback)
+                sendMiniCmd(cmd, {data:{startup:cdata}}, callback)
                 break;
 
             default:
@@ -38,6 +34,7 @@ module.exports = (function() {
         };
     };
 
+    // http://developers.sonoff.tech/basicr3-rfr3-mini-http-api.html
     function sendMiniCmd(cmd, args, callback) {
 
         let mdata = Object.assign(miniCmdData, args);
