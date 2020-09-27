@@ -28,7 +28,7 @@ What's the *difference*? Being able to see the differences between two source fi
 
 This application will allow you to edit or copy changes from one file to another. It can also be used to compare the contents of a folder against another. 
 
-#### Version Control
+### Version Control
 
 **Gitkraken** : <https://www.gitkraken.com/>
 
