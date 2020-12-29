@@ -114,4 +114,5 @@ The client displays the *current state* of the Mini. Touching/clicking anywhere 
 * **Alexa** - modify the Node application so that Alexa can be used to operate it.
 * Create a version where the client's HTML file is served through the Node application. *Investigate the worth first.*
 
-
+---
+<img src="http://webexperiment.info/extcounter/mdcount.php?id=sonoff_mini_diy-server_client">
