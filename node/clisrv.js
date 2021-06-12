@@ -108,6 +108,12 @@ module.exports = (function(_log)  {
                 }
                 mini.sendCmd('switch', urlQuery.state, reply => {
                     res.writeHead(200, headers);
+                    if(state === ccfg.timedstate) {
+                        let remain = Math.ceil((timerid._idleStart + timerid._idleTimeout)/1000 - process.uptime());
+                        log(`handleRequest(): ${remain} remaining for STATE = ${state}`);
+                        let tmp = Object.assign(JSON.parse(reply), {trem:[remain,secHMS(remain)]});
+                        reply = JSON.stringify(tmp);
+                    }
                     res.end(reply);
                 });
                 break;
