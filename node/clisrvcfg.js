@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
     // use this port with the client -
     //      http://127.0.0.1:6464/.....
