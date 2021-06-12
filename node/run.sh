@@ -1,2 +1,2 @@
 #!/bin/sh
-nohup node ./index.js&
+nohup node ./minidiy-server.js&
