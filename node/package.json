@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/jxmot/sonoff_mini_diy-server_client/issues"
   },
-  "homepage": "https://github.com/jxmot/sonoff_mini_diy-server_client#readme"
+  "homepage": "https://github.com/jxmot/sonoff_mini_diy-server_client#readme",
+  "dependencies": {
+    "simple-text-log": "0.0.1"
+  }
 }
