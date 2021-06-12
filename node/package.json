@@ -1,11 +1,11 @@
 {
-  "name": "MiniSwitch",
-  "version": "0.0.1",
+  "name": "minidiy-server",
+  "version": "1.0.0",
   "description": "Controls a Sonoff mini in DIY mode",
-  "main": "index.js",
+  "main": "minidiy-server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-    "start": "node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node minidiy-server.js"
   },
   "repository": {
     "type": "git",
