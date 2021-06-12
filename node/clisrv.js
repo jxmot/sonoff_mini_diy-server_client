@@ -1,14 +1,22 @@
-module.exports = (function()  {
+'use strict';
+/*
+*/
+module.exports = (function(_log)  {
 
     const http = require('http');
     const url = require('url');
     const qstr = require('querystring');
 
     const ccfg = require('./clisrvcfg.js');
-    const mini = require('./minidiy.js');
-    mini.debug = ccfg.debug;
+    const mini = require('./minidiy.js')(_log, ccfg.debug);
 
-    clisrv = {
+    // set up run-time logging
+    const scriptName = require('path').basename(__filename);
+    function log(payload) {
+        if(ccfg.debug) _log(`${scriptName} - ${payload}`);
+    };
+
+    let clisrv = {
     };
 
     let server = {};
@@ -19,7 +27,7 @@ module.exports = (function()  {
         server = http.createServer(handleRequest);
         // Starts the server.
         server.listen(ccfg.port, function() {
-            consolelog("Server is listening on PORT: " + ccfg.port);
+            log(`Server is listening on PORT: ${ccfg.port}`);
         });
     };
 
@@ -35,20 +43,21 @@ module.exports = (function()  {
         
         // When we visit different urls, the switch statement 
         // call on different functions.
+        log(`handleRequest(): ${urlParts.pathname} ${JSON.stringify(urlParts.query)}`);
         switch (urlParts.pathname) {
             case '/info':
-                consolelog('got info');
                 mini.sendCmd('info', null, reply => {
                     res.writeHead(200, headers);
                     res.end(reply);
+                    log(`handleRequest(): mini reply = ${JSON.stringify(reply)}`);
                     state = JSON.parse(reply).data.switch;
                     if((state === 'off') && 
                        ((timerid._idleTimeout === undefined) || (timerid._idleTimeout === -1)) && 
                        (ccfg.maxtime > 0)) {
-                        consolelog('STATE timer started - '+state);
+                        log(`handleRequest(): timer started STATE = ${state}`);
                         timerid = setTimeout(() => {
                             mini.sendCmd('switch', ccfg.nextstate, dummy => {
-                                consolelog('ret to STATE = '+ccfg.nextstate);
+                                log(`handleRequest(): ret to STATE = ${ccfg.nextstate}`);
                             });
                         },ccfg.maxtime);
                     }
@@ -56,23 +65,22 @@ module.exports = (function()  {
                 break;
 
             case '/switch':
-                consolelog('got switch');
                 state = urlQuery.state;
                 if((urlQuery.state === ccfg.timedstate) && (ccfg.maxtime > 0)) {
                     // Start a timer for a configurable
                     // duration. When it expires turn the
                     // Mini back to ON.
-                    consolelog('timed STATE = '+ccfg.timedstate);
+                    log(`handleRequest(): timed STATE = ${ccfg.timedstate}`);
                     timerid = setTimeout(() => {
                         mini.sendCmd('switch', ccfg.nextstate, dummy => {
-                            consolelog('ret to STATE = '+ccfg.nextstate);
+                            log(`handleRequest(): ret to STATE = ${ccfg.nextstate}`);
                         });
                     }, ccfg.maxtime);
                 }
                 if((timerid !== {}) && (urlQuery.state === ccfg.nextstate)) {
                     clearTimeout(timerid);
                     timerid = undefined;
-                    consolelog('timed STATE cleared');
+                    log('timed STATE cleared');
                 }
                 mini.sendCmd('switch', urlQuery.state, reply => {
                     res.writeHead(200, headers);
@@ -83,11 +91,5 @@ module.exports = (function()  {
         };
     };
 
-    function consolelog(text) {
-        if(ccfg.debug) {
-            console.log(text);
-        }
-    };
-
     return clisrv;
-})();
+});

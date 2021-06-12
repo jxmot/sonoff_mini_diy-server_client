@@ -1,10 +1,19 @@
-module.exports = (function() {
+'use strict';
+/*
+*/
+module.exports = (function(_log, _debug = true) {
 
     const http = require('http');
     const mcfg = require('./minicfg.js');
 
-    minidiy = {
-        debug: false
+    let minidiy = {
+        debug: _debug
+    };
+
+    // set up run-time logging
+    const scriptName = require('path').basename(__filename);
+    function log(payload) {
+        if(minidiy.debug) _log(`${scriptName} - ${payload}`);
     };
 
     const miniCmdData = {
@@ -12,6 +21,11 @@ module.exports = (function() {
         data: {}
     };
 
+    /*
+        Send a command to the Mini
+
+        See - http://developers.sonoff.tech/basicr3-rfr3-mini-http-api.html
+    */
     minidiy.sendCmd = function(cmd, cdata, callback) {
 
         switch(cmd) {
@@ -39,7 +53,7 @@ module.exports = (function() {
 
         let mdata = Object.assign(miniCmdData, args);
         let cdata = JSON.stringify(mdata);
-        consolelog('cdata = '+cdata);
+        log(`sendMiniCmd(): cdata = ${cdata}`);
 
         let req = http.request(
         {
@@ -59,19 +73,14 @@ module.exports = (function() {
             });
         
             res.on('end', () => {
-                consolelog('data = '+data);
+                log('data = '+data);
                 callback(data);
             });
         });
+        req.on('error', console.error);
         req.write(cdata);
         req.end();
     };
 
-    function consolelog(text) {
-        if(minidiy.debug) {
-            console.log(text);
-        }
-    };
-
     return minidiy;
-})();
+});
