@@ -33,8 +33,11 @@
             </div>
         </p>
     </div>
-    <div id="info" class="botpage">
-        <h3 id="sig_label" class="sig_text">Signal: -99</h3>
+    <div class="botpage">
+        <p id="sig_label" class="sig_text">Signal: -99</p>
+    </div>
+    <div class="botpage">
+        <h3 id="rem_label" class="rem_text">Remaining: hh:mm:ss</h3>
     </div>
     <script type="text/javascript">
         var swState = 'n/a';
@@ -72,6 +75,9 @@
                     swState = upd.data.switch;
                     document.getElementById('sig_label').innerHTML = 'Signal: '+upd.data.signalStrength;
                     document.getElementById('sig_label').style.display = 'block';
+
+                    document.getElementById('rem_label').innerHTML = 'Remaining: '+upd.trem[1];
+                    document.getElementById('rem_label').style.display = 'block';
                 }
                 if(swState === 'off') {
                     document.querySelector('body').bgColor='red';
@@ -98,6 +104,7 @@
                 document.getElementById('wait_spin').style.display = 'none';
                 document.getElementById('err_label').style.display = 'block';
                 document.getElementById('sig_label').style.display = 'none';
+                document.getElementById('rem_label').style.display = 'none';
             }
         };
     </script>

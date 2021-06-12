@@ -56,7 +56,13 @@ body:hover {
 }
 
 .sig_text {
-    font-size: 10vw;
+    font-size: 7vw;
+    font-family: "Lucida Console", Courier, monospace;
+    font-weight: bold;
+}
+
+.rem_text {
+    font-size: 7vw;
     font-family: "Lucida Console", Courier, monospace;
     font-weight: bold;
 }
