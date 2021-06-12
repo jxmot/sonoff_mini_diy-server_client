@@ -57,24 +57,34 @@ module.exports = (function(_log)  {
         
         // When we visit different urls, the switch statement 
         // call on different functions.
-        log(`handleRequest(): ${urlParts.pathname} ${JSON.stringify(urlParts.query)}`);
+        log(`handleRequest(): new request - ${urlParts.pathname} ${JSON.stringify(urlParts.query)}`);
         switch (urlParts.pathname) {
             case '/info':
                 mini.sendCmd('info', null, reply => {
                     res.writeHead(200, headers);
-                    res.end(reply);
-                    log(`handleRequest(): mini reply = ${JSON.stringify(reply)}`);
                     state = JSON.parse(reply).data.switch;
-                    if((state === 'off') && 
+                    // this is rare, but if the mini's state matches the 
+                    // configured timed state then check to see if a timer 
+                    // was started. if not then start one.
+                    if((state === ccfg.timedstate) && 
                        ((timerid._idleTimeout === undefined) || (timerid._idleTimeout === -1)) && 
                        (ccfg.maxtime > 0)) {
-                        log(`handleRequest(): timer started STATE = ${state}`);
+                        log(`handleRequest(): timer restarted STATE = ${state}`);
                         timerid = setTimeout(() => {
                             mini.sendCmd('switch', ccfg.nextstate, dummy => {
                                 log(`handleRequest(): ret to STATE = ${ccfg.nextstate}`);
                             });
                         },ccfg.maxtime);
+                    } else {
+                        if(state === ccfg.timedstate) {
+                            let remain = Math.ceil((timerid._idleStart + timerid._idleTimeout)/1000 - process.uptime());
+                            log(`handleRequest(): ${remain} remaining for STATE = ${state}`);
+                            let tmp = Object.assign(JSON.parse(reply), {trem:[remain,secHMS(remain)]});
+                            reply = JSON.stringify(tmp);
+                        }
                     }
+                    log(`handleRequest(): mini reply = ${JSON.stringify(reply)}`);
+                    res.end(reply);
                 });
                 break;
 
@@ -84,7 +94,7 @@ module.exports = (function(_log)  {
                     // Start a timer for a configurable
                     // duration. When it expires turn the
                     // Mini back to ON.
-                    log(`handleRequest(): timed STATE = ${ccfg.timedstate}`);
+                    log(`handleRequest(): begin timed STATE = ${ccfg.timedstate}`);
                     timerid = setTimeout(() => {
                         mini.sendCmd('switch', ccfg.nextstate, dummy => {
                             log(`handleRequest(): ret to STATE = ${ccfg.nextstate}`);
@@ -94,7 +104,7 @@ module.exports = (function(_log)  {
                 if((timerid !== {}) && (urlQuery.state === ccfg.nextstate)) {
                     clearTimeout(timerid);
                     timerid = undefined;
-                    log('timed STATE cleared');
+                    log('handleRequest(): timed STATE cleared');
                 }
                 mini.sendCmd('switch', urlQuery.state, reply => {
                     res.writeHead(200, headers);
