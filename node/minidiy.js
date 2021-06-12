@@ -67,6 +67,8 @@ module.exports = (function(_log, _debug = true) {
             },
         },
         res => {
+            log(`sendMiniCmd(): statusCode = ${res.statusCode}`);
+
             let data = '';
             res.on('data', _data => {
                 data += _data;
