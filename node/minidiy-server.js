@@ -14,7 +14,7 @@ function _log(payload) {
     if(logoutin === true) logOut.writeTS(payload);
     else console.log(payload);
 };
-
+// add this file's name to the output
 const scriptName = require('path').basename(__filename);
 function log(payload) {
     _log(`${scriptName} - ${payload}`);

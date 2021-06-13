@@ -8,7 +8,8 @@ module.exports = {
     // the state with a timeout
     timedstate: 'off',
     // when the timeout expires this is 
-    // next state
+    // next state (usually the opposite 
+    // of timedstate)
     nextstate: 'on',
     // set to 0 to disable timeout
     //      10800000 = 3 hours
