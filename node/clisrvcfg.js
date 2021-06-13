@@ -15,6 +15,6 @@ module.exports = {
     //      10800000 = 3 hours
     //       3600000 = 1 hour
     maxtime: 10800000,
-    // enable/disable console output
-    debug: false
+    // enable/disable logging output
+    debug: true
 };

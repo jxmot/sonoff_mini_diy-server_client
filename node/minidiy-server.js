@@ -7,8 +7,10 @@
 // Run-Time Logging
 const Log = require('simple-text-log');
 const logOut = new Log(require('./runlogopt.js'));
-
-var logoutin = true;
+// simple-text-log is small, about 14k. so even if 
+// it's not used there's very little impact from it 
+// being around.
+var logoutin = false;
 // pass this function around to the other modules
 function _log(payload) {
     if(logoutin === true) logOut.writeTS(payload);
