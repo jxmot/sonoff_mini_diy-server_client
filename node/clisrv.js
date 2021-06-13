@@ -13,6 +13,7 @@ module.exports = (function(_log)  {
     // set up run-time logging
     const scriptName = require('path').basename(__filename);
     function log(payload) {
+        // local control over logging
         if(ccfg.debug) _log(`${scriptName} - ${payload}`);
     };
 
@@ -77,6 +78,7 @@ module.exports = (function(_log)  {
                         },ccfg.maxtime);
                     } else {
                         if(state === ccfg.timedstate) {
+                            // get the seconds remaining until the timeout expires
                             let remain = Math.ceil((timerid._idleStart + timerid._idleTimeout)/1000 - process.uptime());
                             log(`handleRequest(): ${remain} remaining for STATE = ${state}`);
                             let tmp = Object.assign(JSON.parse(reply), {trem:[remain,secHMS(remain)]});
@@ -93,11 +95,11 @@ module.exports = (function(_log)  {
                 if((urlQuery.state === ccfg.timedstate) && (ccfg.maxtime > 0)) {
                     // Start a timer for a configurable
                     // duration. When it expires turn the
-                    // Mini back to ON.
+                    // Mini back to the other state.
                     log(`handleRequest(): begin timed STATE = ${ccfg.timedstate}`);
                     timerid = setTimeout(() => {
                         mini.sendCmd('switch', ccfg.nextstate, dummy => {
-                            log(`handleRequest(): ret to STATE = ${ccfg.nextstate}`);
+                            log(`handleRequest(): return to STATE = ${ccfg.nextstate}`);
                         });
                     }, ccfg.maxtime);
                 }
@@ -109,17 +111,18 @@ module.exports = (function(_log)  {
                 mini.sendCmd('switch', urlQuery.state, reply => {
                     res.writeHead(200, headers);
                     if(state === ccfg.timedstate) {
+                        // get the seconds remaining until the timeout expires
                         let remain = Math.ceil((timerid._idleStart + timerid._idleTimeout)/1000 - process.uptime());
                         log(`handleRequest(): ${remain} remaining for STATE = ${state}`);
                         let tmp = Object.assign(JSON.parse(reply), {trem:[remain,secHMS(remain)]});
                         reply = JSON.stringify(tmp);
                     }
+                    log(`handleRequest(): mini reply = ${JSON.stringify(reply)}`);
                     res.end(reply);
                 });
                 break;
 
         };
     };
-
     return clisrv;
 });
