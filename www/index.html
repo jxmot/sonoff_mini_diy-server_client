@@ -82,7 +82,9 @@
                     document.getElementById('off_label').style.display = 'block';
 
                     if(upd.trem) {
-                        document.getElementById('rem_label').innerHTML = 'Remaining: '+upd.trem[1];
+                        let tmp = (upd.trem[0] != -1 ? 'Remaining: '+upd.trem[1] : 'No Time Out');
+
+                        document.getElementById('rem_label').innerHTML = tmp;
                         document.getElementById('rem_label').style.display = 'block';
                     } else {
                         document.getElementById('rem_label').style.display = 'none';
