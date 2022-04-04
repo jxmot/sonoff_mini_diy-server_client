@@ -6,7 +6,7 @@ module.exports = {
     // "mini" on a phone pad
     port: '6464',
     // the state with a timeout (must be 
-    // set if maxtime == 0)
+    // set to something if maxtime == 0)
     timedstate: 'off',
     // when the timeout expires this is 
     // next state (usually the opposite 
