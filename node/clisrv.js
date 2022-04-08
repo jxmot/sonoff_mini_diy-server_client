@@ -73,10 +73,10 @@ module.exports = (function(_log)  {
                         if((state === ccfg.timedstate) && 
                         ((timerid._idleTimeout === undefined) || (timerid._idleTimeout === -1)) && 
                         (ccfg.maxtime > 0)) {
-                            log(`handleRequest(): timer restarted STATE = ${state}`);
+                            log(`handleRequest(): ${urlParts.pathname} timer restarted STATE = ${state}`);
                             timerid = setTimeout(() => {
                                 mini.sendCmd('switch', ccfg.nextstate, dummy => {
-                                    log(`handleRequest(): ret to STATE = ${ccfg.nextstate}`);
+                                    log(`handleRequest(): ${urlParts.pathname} ret to STATE = ${ccfg.nextstate}`);
                                 });
                             },ccfg.maxtime);
                         } else {
@@ -84,18 +84,18 @@ module.exports = (function(_log)  {
                                 if(ccfg.maxtime > 0) {
                                     // get the seconds remaining until the timeout expires
                                     let remain = Math.ceil((timerid._idleStart + timerid._idleTimeout)/1000 - process.uptime());
-                                    log(`handleRequest(): ${remain} remaining for STATE = ${state}`);
+                                    log(`handleRequest(): ${urlParts.pathname} ${remain} remaining for STATE = ${state}`);
                                     let tmp = Object.assign(JSON.parse(reply), {trem:[remain,secHMS(remain)]});
                                     reply = JSON.stringify(tmp);
                                 } else {
                                     // no timer, when the mini is in the "timed state" AND 
                                     // the timeout value is 0 then do almost nothing....
-                                    log(`handleRequest(): info - permanent STATE = ${state}`);
+                                    log(`handleRequest(): ${urlParts.pathname} - permanent STATE = ${state}`);
                                 }
                             }
                         }
                     }
-                    log(`handleRequest(): mini reply = ${JSON.stringify(reply)}`);
+                    log(`handleRequest(): ${urlParts.pathname} mini reply = ${JSON.stringify(reply)}`);
                     res.end(reply);
                 });
                 break;
@@ -106,17 +106,17 @@ module.exports = (function(_log)  {
                     // Start a timer for a configurable
                     // duration. When it expires turn the
                     // Mini back to the other state.
-                    log(`handleRequest(): begin timed STATE = ${ccfg.timedstate}`);
+                    log(`handleRequest(): ${urlParts.pathname} begin timed STATE = ${ccfg.timedstate}`);
                     timerid = setTimeout(() => {
                         mini.sendCmd('switch', ccfg.nextstate, dummy => {
-                            log(`handleRequest(): return to STATE = ${ccfg.nextstate}`);
+                            log(`handleRequest(): ${urlParts.pathname} return to STATE = ${ccfg.nextstate}`);
                         });
                     }, ccfg.maxtime);
                 }
                 if((timerid !== {}) && (urlQuery.state === ccfg.nextstate)) {
                     clearTimeout(timerid);
                     timerid = {};
-                    log('handleRequest(): timed STATE cleared');
+                    log('handleRequest(): ${urlParts.pathname} timed STATE cleared');
                 }
                 mini.sendCmd('switch', urlQuery.state, reply => {
                     res.writeHead(200, headers);
@@ -124,18 +124,18 @@ module.exports = (function(_log)  {
                         if(ccfg.maxtime > 0) {
                             // get the seconds remaining until the timeout expires
                             let remain = Math.ceil((timerid._idleStart + timerid._idleTimeout)/1000 - process.uptime());
-                            log(`handleRequest(): ${remain} remaining for STATE = ${state}`);
+                            log(`handleRequest(): ${urlParts.pathname} ${remain} remaining for STATE = ${state}`);
                             let tmp = Object.assign(JSON.parse(reply), {trem:[remain,secHMS(remain)]});
                             reply = JSON.stringify(tmp);
                         } else {
                             // no timer, when the mini is in the "timed state" AND 
                             // the timeout value is 0 then do almost nothing....
-                            log(`handleRequest(): switch - permanent STATE = ${state}`);
+                            log(`handleRequest(): ${urlParts.pathname} - permanent STATE = ${state}`);
                             let tmp = Object.assign(JSON.parse(reply), {trem:[-1,'']});
                             reply = JSON.stringify(tmp);
                         }
                     }
-                    log(`handleRequest(): mini reply = ${JSON.stringify(reply)}`);
+                    log(`handleRequest(): ${urlParts.pathname} mini reply = ${JSON.stringify(reply)}`);
                     res.end(reply);
                 });
                 break;
