@@ -57,7 +57,7 @@ module.exports = (function(_log, _debug = true) {
 
         let mdata = Object.assign(miniCmdData, args);
         let cdata = JSON.stringify(mdata);
-        log(`sendMiniCmd(): cdata = ${cdata}`);
+        log(`sendMiniCmd(): cmd = ${cmd}`);
 
         let req = http.request(
         {
@@ -71,7 +71,7 @@ module.exports = (function(_log, _debug = true) {
             },
         },
         res => {
-            log(`sendMiniCmd(): statusCode = ${res.statusCode}`);
+            log(`sendMiniCmd(): cmd = ${cmd} statusCode = ${res.statusCode}`);
 
             let data = '';
             res.on('data', _data => {
