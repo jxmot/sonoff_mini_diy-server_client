@@ -91,6 +91,8 @@ module.exports = (function(_log)  {
                                     // no timer, when the mini is in the "timed state" AND 
                                     // the timeout value is 0 then do almost nothing....
                                     log(`handleRequest(): ${urlParts.pathname} - permanent STATE = ${state}`);
+                                    let tmp = Object.assign(JSON.parse(reply), {trem:[-1,'']});
+                                    reply = JSON.stringify(tmp);
                                 }
                             }
                         }
