@@ -98,14 +98,16 @@ module.exports = {
 ```
 'use strict';
 module.exports = {
+    logenab:true,
     logfile:'./logs/minidiy.log',
     // 10 MiB file size
     logsize:10485760
 };
 ```
+
 This file contains the path + name of the application's log file and the maximum files size before roll-over. See [`simple-text-log`](<https://www.npmjs.com/package/simple-text-log>) for more information.
 
-**4) `sonoff_mini_diy-server_client/www/assets/js/minicfg.js`**
+**4) `sonoff_mini_diy-server_client/www/assets/js/minicfg.js`** 
 ```
 var cfg = {
     // the API server
@@ -122,7 +124,7 @@ This tells the web client were the API server is. Edit it to your needs.
 
 2) Download this repository (a tagged release is recommended). 
 
-3) Copy all of the files in the `/node` folder to where you can run Node.js.
+3) Copy all of the files in the `/node` folder to where you can run Node.js **and leave it running**.
 
 4) Next install any dependencies - `npm install`
 
@@ -132,7 +134,9 @@ This tells the web client were the API server is. Edit it to your needs.
 
 7) To run the client just drop the `sonoff_mini_diy-server_client/www/index.html` file onto an open browser.
 
-You should see the following when the server starts up - 
+You you can "tail" the `logs/minidiy.log` file and you should see the following when the server starts up - 
+
+(*note: the timestamp portion of the log entries has been removed*)
 
 ```
 minidiy-server.js - *******************************************
@@ -140,36 +144,50 @@ minidiy-server.js - start
 clisrv.js - Server is listening on PORT: 6464
 ```
 
-Then when you load the client page or when it automatically refreshes the server will output (*the mini is in the "ON" state*) - 
+Then when you load the client page or when it automatically refreshes, the server will output (*the mini is in the "ON" state*) - 
 
 ```
 clisrv.js - handleRequest(): new request - /info {}
-minidiy.js - sendMiniCmd(): cdata = {"deviceid":"","data":{}}
-minidiy.js - sendMiniCmd(): statusCode = 200
-minidiy.js - data = {"seq":4,"error":0,"data":{"switch":"on","startup":"on","pulse":"off","pulseWidth":500,"ssid":"IBDOGG","otaUnlock":false,"fwVersion":"3.5.0","deviceid":"1000fffff","bssid":"th:em:in:im:ac:00","signalStrength":-66}}
-clisrv.js - handleRequest(): mini reply = "{\"seq\":4,\"error\":0,\"data\":{\"switch\":\"on\",\"startup\":\"on\",\"pulse\":\"off\",\"pulseWidth\":500,\"ssid\":\"IBDOGG\",\"otaUnlock\":false,\"fwVersion\":\"3.5.0\",\"deviceid\":\"1000fffff\",\"bssid\":\"th:em:in:im:ac:00\",\"signalStrength\":-66}}"
+minidiy.js - sendMiniCmd(): cmd = info
+minidiy.js - sendMiniCmd(): cmd = info statusCode = 200
+minidiy.js - data = {"seq":26,"error":0,"data":{"switch":"on","startup":"on","pulse":"off","pulseWidth":500,"ssid":"URSSID","otaUnlock":false,"fwVersion":"3.5.0","deviceid":"1000ffffff","bssid":"10:da:43:ff:ff:ff","signalStrength":-66}}
+clisrv.js - handleRequest(): /info mini reply = "{\"seq\":26,\"error\":0,\"data\":{\"switch\":\"on\",\"startup\":\"on\",\"pulse\":\"off\",\"pulseWidth\":500,\"ssid\":\"URSSID\",\"otaUnlock\":false,\"fwVersion\":\"3.5.0\",\"deviceid\":\"1000ffffff\",\"bssid\":\"10:da:43:ff:ff:ff\",\"signalStrength\":-66}}"
 ```
 
-If "OFF" is selected in the client the server will output:
+If "ON" -> "OFF"(*this is the "timed state"*) is selected in the client the server will output:
 ```
 clisrv.js - handleRequest(): new request - /switch {"state":"off"}
-clisrv.js - handleRequest(): begin timed STATE = off
-minidiy.js - sendMiniCmd(): cdata = {"deviceid":"","data":{"switch":"off"}}
-minidiy.js - sendMiniCmd(): statusCode = 200
-minidiy.js - data = {"seq":4,"error":0}
-clisrv.js - handleRequest(): 10800 remaining for STATE = off
-clisrv.js - handleRequest(): mini reply = "{\"seq\":4,\"error\":0,\"trem\":[10800,\"03:00:00\"]}"
-
+clisrv.js - handleRequest(): /switch begin timed STATE = off
+minidiy.js - sendMiniCmd(): cmd = switch
+minidiy.js - sendMiniCmd(): cmd = switch statusCode = 200
+minidiy.js - data = {"seq":28,"error":0}
 ```
 
-If "ON" is selected in the client the server will output:
+The next long entry will be one of these:
+
+**`clisrvcfg.js:maxtime` is set to `10800000`(*milliseconds*)**
+
+```
+clisrv.js - handleRequest(): 10800 remaining for STATE = off
+clisrv.js - handleRequest(): mini reply = "{\"seq\":28,\"error\":0,\"trem\":[10800,\"03:00:00\"]}"
+```
+
+**or**
+
+**`clisrvcfg.js:maxtime` is set to `0`**
+
+```
+clisrv.js - handleRequest(): /switch mini reply = "{\"seq\":28,\"error\":0,\"trem\":[-1,\"\"]}"
+```
+
+If "OFF" -> "ON" is selected in the client the server will output:
 ```
 clisrv.js - handleRequest(): new request - /switch {"state":"on"}
-clisrv.js - handleRequest(): timed STATE cleared
-minidiy.js - sendMiniCmd(): cdata = {"deviceid":"","data":{"switch":"on"}}
-minidiy.js - sendMiniCmd(): statusCode = 200
-minidiy.js - data = {"seq":5,"error":0}
-clisrv.js - handleRequest(): mini reply = "{\"seq\":5,\"error\":0}"
+clisrv.js - handleRequest(): /switch timed STATE cleared
+minidiy.js - sendMiniCmd(): cmd = switch
+minidiy.js - sendMiniCmd(): cmd = switch statusCode = 200
+minidiy.js - data = {"seq":29,"error":0}
+clisrv.js - handleRequest(): /switch mini reply = "{\"seq\":29,\"error\":0}"
 ```
 
 #### Running Full Time
@@ -187,15 +205,15 @@ nohup node ./minidiy-server.js&
 **NOTE:** Change the following first:
 
 * To run full-time with very little output, routed to `nohup.out`:
-  * In `minidiy-server.js` set `logoutin` to `false`
+  * In `runlogopt.js` set `logenab` to `false`
   * In `clisrvcfg.js` set `debug` to `false`
 
 * To run full-time with all output, routed to `nohup.out` (*not recommended for long term run times*):
-  * In `minidiy-server.js` set `logoutin` to `false`
+  * In `runlogopt.js` set `logenab` to `false`
   * In `clisrvcfg.js` set `debug` to `true`
 
 * To run full-time with all output, routed to the file specified in `runlogopt.js`:
-  * In `minidiy-server.js` set `logoutin` to `true`
+  * In `runlogopt.js` set `logenab` to `true`
   * In `clisrvcfg.js` set `debug` to `true`, the output file is specified in `runlogopt.js`.
 
 ### Client & Server
@@ -215,6 +233,12 @@ The client will display one of three states: On, Off, or Standby. The *standby* 
 The client displays the *current state* of the Mini. Touching/clicking anywhere in the page will change the state of the Mini and the client's display. 
 
 When the selected state matches the configured *timed state* the time remaining will be seen. The timed state and it duration can be changed by editing `/node/clisrvcfg.js` and settng `timedstate` and/or `maxtime`.
+
+If `maxtime` is set to `0` the timeout is disabled and it will be indicated with the message **`No Time Out`**. See [Configuration](#configuration) for more information.
+
+<p align="center">
+  <img src="./mdimg/client_OFF-no_timeout-590x660.png" width="20%"; alt="OFF Screen and no timeout" txt="OFF Screen and no timeout"/>
+</p>
 
 ## Project To Do
 

@@ -1,5 +1,10 @@
 'use strict';
+/*
+    Cient Side Configuration
 
+    Author: https://github.com/jxmot
+    Repository: https://github.com/jxmot/sonoff_mini_diy-server_client
+*/
 module.exports = {
     // use this port with the client -
     //      http://127.0.0.1:6464/.....
