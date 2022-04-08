@@ -64,8 +64,8 @@ module.exports = (function(_log)  {
                 mini.sendCmd('info', null, reply => {
                     res.writeHead(200, headers);
                     state = JSON.parse(reply).data.switch;
-                    if(timerid === undefined) {
-                        log(`handleRequest(): ERROR - timerid is undefined`);
+                    if((timerid === undefined) || (timerid === {})) {
+                        log(`handleRequest(): ${urlParts.pathname} ERROR - timerid is undefined`);
                     } else {
                         // this is rare, but if the mini's state matches the 
                         // configured timed state then check to see if a timer 
@@ -115,7 +115,7 @@ module.exports = (function(_log)  {
                 }
                 if((timerid !== {}) && (urlQuery.state === ccfg.nextstate)) {
                     clearTimeout(timerid);
-                    timerid = undefined;
+                    timerid = {};
                     log('handleRequest(): timed STATE cleared');
                 }
                 mini.sendCmd('switch', urlQuery.state, reply => {
