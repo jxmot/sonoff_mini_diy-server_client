@@ -1,5 +1,11 @@
 'use strict';
 /*
+    Client Server - The client-side web page sends requests 
+    which are handled here. Thoses requests are forwarded to 
+    Sonoff Mini command functions. 
+
+    Author: https://github.com/jxmot
+    Repository: https://github.com/jxmot/sonoff_mini_diy-server_client
 */
 module.exports = (function(_log)  {
 
@@ -24,6 +30,7 @@ module.exports = (function(_log)  {
     let timerid = {};
     let state = 'n/a';
 
+    // start the HTTP server
     clisrv.start = function() {
         server = http.createServer(handleRequest);
         // Starts the server.
@@ -32,6 +39,8 @@ module.exports = (function(_log)  {
         });
     };
 
+    // convert seconds to HH:MM:SS, all numbers 
+    // are zero-padded.
     function secHMS(sec) {
         let sec_num = (typeof sec === 'string' ? sec_num = parseInt(sec) : sec);
 
@@ -46,16 +55,16 @@ module.exports = (function(_log)  {
         return hours+':'+minutes+':'+seconds;
     }
 
+    // HTTP request handler...
     function handleRequest(req, res) {
 
         const headers = {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "GET"
         };
-
+        // parse the query...
         let urlParts = url.parse(req.url, true);
         let urlQuery = urlParts.query;
-        
         // When we visit different urls, the switch statement 
         // call on different functions.
         log(`handleRequest(): new request - ${urlParts.pathname} ${JSON.stringify(urlParts.query)}`);
@@ -118,7 +127,7 @@ module.exports = (function(_log)  {
                 if((timerid !== {}) && (urlQuery.state === ccfg.nextstate)) {
                     clearTimeout(timerid);
                     timerid = {};
-                    log('handleRequest(): ${urlParts.pathname} timed STATE cleared');
+                    log(`handleRequest(): ${urlParts.pathname} timed STATE cleared`);
                 }
                 mini.sendCmd('switch', urlQuery.state, reply => {
                     res.writeHead(200, headers);

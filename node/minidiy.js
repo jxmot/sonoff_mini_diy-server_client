@@ -1,5 +1,9 @@
 'use strict';
 /*
+    Send a Command to the Sonoff Mini
+
+    Author: https://github.com/jxmot
+    Repository: https://github.com/jxmot/sonoff_mini_diy-server_client
 */
 module.exports = (function(_log, _debug = true) {
 
