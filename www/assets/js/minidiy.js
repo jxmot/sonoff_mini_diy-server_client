@@ -1,8 +1,9 @@
 /*
-    Sonoff Mini Commands
+    Sonoff Mini Commands - Calls the Node server API 
+    with a GET request that triggers Mini API calls.
 
-    Calls the Node server API with a GET request
-    that triggers Mini API calls.
+    Author: https://github.com/jxmot
+    Repository: https://github.com/jxmot/sonoff_mini_diy-server_client
 */
 const miniURL = 'http://'+cfg.ip+':'+cfg.port;
 
