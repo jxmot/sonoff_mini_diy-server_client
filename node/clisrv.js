@@ -67,7 +67,7 @@ module.exports = (function(_log)  {
         let urlQuery = urlParts.query;
         // When we visit different urls, the switch statement 
         // call on different functions.
-        log(`handleRequest(): new request - ${urlParts.pathname} ${JSON.stringify(urlParts.query)}`);
+        log(`handleRequest(): new request - ${req.connection.remoteAddress} : ${urlParts.pathname} ${JSON.stringify(urlParts.query)}`);
         switch (urlParts.pathname) {
             case '/info':
                 mini.sendCmd('info', null, reply => {
