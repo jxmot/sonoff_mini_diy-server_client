@@ -10,8 +10,11 @@ html, body {
 
 /*
     The entire body is clickable
+
+    NOTE: On android this is REQUIRED, otherwise 
+    "clicks" (or tap) is mostly ignored.
 */
-body:hover {
+body {
     cursor:pointer;
 }
 
